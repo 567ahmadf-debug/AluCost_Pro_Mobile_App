@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2868d8">
+    <title>AluCost Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2868d8;
+            --primary-dark: #1e58bd;
+            --primary-light: #edf4ff;
+            --primary-soft: #f5f8ff;
+            --text: #172033;
+            --muted: #718096;
+            --background: #f0f3f8;
+            --white: #ffffff;
+            --border: #e6eaf0;
+            --success: #16a36a;
+            --success-bg: #eaf9f2;
+            --danger: #e34d59;
+            --danger-bg: #fff0f1;
+            --shadow-sm: 0 2px 8px rgba(30, 55, 90, 0.06);
+            --shadow: 0 8px 24px rgba(30, 55, 90, 0.08);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --nav-height: 68px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overscroll-behavior-y: contain;
+        }
+
+        body {
+            font-family: "Cairo", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            font-size: 15px;
+            line-height: 1.5;
+            padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom));
+        }
+
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+            border: 0;
+            background: none;
+            color: inherit;
+        }
+
+        /* =========================================================
+           APP HEADER
+        ========================================================= */
+        .app-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 16px;
+            padding-top: calc(14px + env(safe-area-inset-top));
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), #4a86e8);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(40, 104, 216, 0.25);
+        }
+
+        .brand-text h1 {
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+        main {
+            padding: 16px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.22s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-heading {
+            margin-bottom: 16px;
+        }
+
+        .page-heading h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           CARDS
+        ========================================================= */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            margin-bottom: 16px;
+        }
+
+        .card-title h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-title p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* =========================================================
+           FORM
+        ========================================================= */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            color: #354052;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        input, select {
+            width: 100%;
+            height: 50px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: #fbfcfe;
+            padding: 0 14px;
+            color: var(--text);
+            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.15s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(40, 104, 216, 0.08);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23718096' d='M6 8L2 4h8z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: left 14px center;
+            padding-left: 36px;
+        }
+
+        .currency {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        .has-currency {
+            padding-left: 48px;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+        .btn {
+            border: 0;
+            height: 52px;
+            padding: 0 18px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 700;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 6px 16px rgba(40, 104, 216, 0.22);
+        }
+
+        .btn-primary:active {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        /* =========================================================
+           GRID
+        ========================================================= */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* =========================================================
+           MATERIALS
+        ========================================================= */
+        .material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .material-box {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            background: #fcfdff;
+        }
+
+        .material-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .material-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .material-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .material-info small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           HANDLE TOGGLE
+        ========================================================= */
+        .handle-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .toggle-option {
+            position: relative;
+        }
+
+        .toggle-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .toggle-option label {
+            height: 48px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0;
+            color: var(--muted);
+            background: #fbfcfe;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.15s;
+        }
+
+        .toggle-option input:checked + label {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .handle-direction {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .handle-direction.show {
+            display: block;
+        }
+
+        /* =========================================================
+           RESULT PANEL
+        ========================================================= */
+        .result-panel {
+            background: linear-gradient(160deg, #f8fbff, #ffffff);
+            border: 1.5px solid #e1e9f7;
+        }
+
+        .result-main {
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, var(--primary), #4a86e8);
+            color: white;
+            padding: 22px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(40, 104, 216, 0.25);
+        }
+
+        .result-main span {
+            display: block;
+            opacity: 0.85;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .result-main strong {
+            font-size: 34px;
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            font-size: 13px;
+            gap: 10px;
+        }
+
+        .breakdown-row span {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .breakdown-row strong {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           INVOICE FORM
+        ========================================================= */
+        .invoice-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* =========================================================
+           INVOICE ITEMS (CARDS)
+        ========================================================= */
+        .items-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .items-head h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .items-count {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .invoice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .invoice-item {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            transition: 0.15s;
+        }
+
+        .invoice-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .item-index {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .item-dims {
+            flex: 1;
+        }
+
+        .item-dims strong {
+            display: block;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .item-dims small {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 15px;
+            border: 0;
+            transition: 0.15s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.92);
+        }
+
+        .edit-btn {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .delete-btn {
+            color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .invoice-item-mid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 10px 0;
+            border-top: 1px dashed var(--border);
+            border-bottom: 1px dashed var(--border);
+            margin-bottom: 12px;
+        }
+
+        .item-meta {
+            text-align: center;
+        }
+
+        .item-meta span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .item-meta strong {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .invoice-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-price {
+            flex: 1;
+        }
+
+        .item-price span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .item-price strong {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .item-total {
+            text-align: left;
+        }
+
+        .item-total span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .item-total strong {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            background: #fbfcfe;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .empty-icon {
+            width: 54px;
+            height: 54px;
+            background: var(--primary-light);
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .empty-state h4 {
+            color: var(--text);
+            font-size: 15px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           GRAND TOTAL
+        ========================================================= */
+        .grand-total {
+            background: linear-gradient(135deg, var(--primary), #4a86e8);
+            color: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 10px 26px rgba(40, 104, 216, 0.28);
+        }
+
+        .grand-total span {
+            display: block;
+            font-size: 13px;
+            opacity: 0.85;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .grand-total strong {
+            display: block;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .invoice-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .invoice-actions .btn {
+            background: white;
+            color: var(--primary);
+        }
+
+        .invoice-actions .btn.secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+        }
+
+        /* =========================================================
+           BOTTOM NAV
+        ========================================================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            z-index: 50;
+            padding-bottom: env(safe-area-inset-bottom);
+            box-shadow: 0 -4px 20px rgba(30, 55, 90, 0.05);
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            transition: 0.15s;
+            padding: 6px 4px;
+        }
+
+        .nav-btn .nav-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .nav-btn.active {
+            color: var(--primary);
+        }
+
+        .nav-btn.active .nav-icon {
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(var(--nav-height) + 20px + env(safe-area-inset-bottom));
+            transform: translate(-50%, 100px);
+            background: #172033;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 1000;
+            max-width: calc(100% - 32px);
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        /* =========================================================
+           HIDDEN INVOICE IMAGE (for html2canvas)
+        ========================================================= */
+        .invoice-image-area {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 780px;
+            background: #ffffff;
+            padding: 36px;
+            color: #172033;
+            z-index: -1;
+        }
+
+        .print-invoice {
+            background: white;
+            border: 1px solid #e7ebf1;
+            padding: 32px;
+        }
+
+        .print-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #edf1f6;
+        }
+
+        .print-brand h1 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .print-brand p {
+            color: #7a8798;
+            font-size: 12px;
+        }
+
+        .print-info {
+            text-align: left;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        .print-info strong {
+            color: #172033;
+        }
+
+        .print-customer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .print-info-box {
+            background: #f7faff;
+            border-radius: 10px;
+            padding: 11px 14px;
+        }
+
+        .print-info-box span {
+            display: block;
+            color: #78879a;
+            font-size: 10px;
+            margin-bottom: 3px;
+        }
+
+        .print-info-box strong {
+            font-size: 13px;
+        }
+
+        .print-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .print-table th {
+            background: #f1f5fb;
+            color: #526174;
+            padding: 11px 8px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .print-table td {
+            padding: 11px 8px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #edf1f6;
+        }
+
+        .print-total {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 18px;
+        }
+
+        .print-total-box {
+            width: 260px;
+            background: var(--primary);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .print-total-box span {
+            display: block;
+            opacity: 0.8;
+            font-size: 11px;
+        }
+
+        .print-total-box strong {
+            font-size: 24px;
+        }
+
+        .print-footer {
+            margin-top: 28px;
+            padding-top: 16px;
+            border-top: 1px solid #edf1f6;
+            text-align: center;
+            color: #8995a5;
+            font-size: 10px;
+        }
+
+        /* =========================================================
+           DESKTOP REFINEMENTS (very large screens only)
+        ========================================================= */
+        @media (min-width: 720px) {
+            main {
+                padding: 24px 16px;
+            }
+
+            .material-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .invoice-form-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .invoice-actions {
+                flex-direction: row;
+            }
+
+            .invoice-actions .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header class="app-header">
+    <div class="brand-icon">A</div>
+    <div class="brand-text">
+        <h1>AluCost Pro</h1>
+        <p>حساب تكلفة أبواب الألمنيوم</p>
+    </div>
+</header>
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+<main>
+
+    <!-- ============ MATERIALS ============ -->
+    <section id="materials" class="page active">
+        <div class="page-heading">
+            <h2>أسعار المواد</h2>
+            <p>أدخل الأسعار — يتم الحفظ تلقائياً</p>
+        </div>
+
+        <div class="card">
+            <div class="material-list">
+
+                <div class="material-box">
+                    <div class="material-head">
+                        <div class="material-icon">A</div>
+                        <div class="material-info">
+                            <h4>قضيب بدون مسكة</h4>
+                            <small>6 متر = 600 سم</small>
+                        </div>
+                    </div>
+                    <div class="input-wrap">
+                        <input id="normalBarPrice" type="number" inputmode="decimal" min="0" step="0.01" class="has-currency" placeholder="25">
+                        <span class="currency">$</span>
+                    </div>
+                </div>
+
+                <div class="material-box">
+                    <div class="material-head">
+                        <div class="material-icon">H</div>
+                        <div class="material-info">
+                            <h4>قضيب مع مسكة</h4>
+                            <small>6 متر = 600 سم</small>
+                        </div>
+                    </div>
+                    <div class="input-wrap">
+                        <input id="handleBarPrice" type="number" inputmode="decimal" min="0" step="0.01" class="has-currency" placeholder="30">
+                        <span class="currency">$</span>
+                    </div>
+                </div>
+
+                <div class="material-box">
+                    <div class="material-head">
+                        <div class="material-icon">4</div>
+                        <div class="material-info">
+                            <h4>طقم الزوايا</h4>
+                            <small>طقم واحد لكل باب</small>
+                        </div>
+                    </div>
+                    <div class="input-wrap">
+                        <input id="cornerPrice" type="number" inputmode="decimal" min="0" step="0.01" class="has-currency" placeholder="2">
+                        <span class="currency">$</span>
+                    </div>
+                </div>
+
+                <div class="material-box">
+                    <div class="material-head">
+                        <div class="material-icon">G</div>
+                        <div class="material-info">
+                            <h4>سعر الزجاج</h4>
+                            <small>سعر المتر المربع</small>
+                        </div>
+                    </div>
+                    <div class="input-wrap">
+                        <input id="glassPrice" type="number" inputmode="decimal" min="0" step="0.01" class="has-currency" placeholder="12">
+                        <span class="currency">$/m²</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top:16px;">
+                <button class="btn btn-primary btn-block" id="savePricesBtn">
+                    حفظ أسعار المواد
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CALCULATOR ============ -->
+    <section id="calculator" class="page">
+        <div class="page-heading">
+            <h2>حساب تكلفة الباب</h2>
+            <p>تكلفة تصنيع باب واحد</p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <h3>مواصفات الباب</h3>
+                <p>الأبعاد بالسنتيمتر</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="doorLength">الطول</label>
+                    <div class="input-wrap">
+                        <input id="doorLength" type="number" inputmode="decimal" min="0" step="0.1" placeholder="200">
+                        <span class="currency">cm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="doorWidth">العرض</label>
+                    <div class="input-wrap">
+                        <input id="doorWidth" type="number" inputmode="decimal" min="0" step="0.1" placeholder="90">
+                        <span class="currency">cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>هل يوجد مسكة؟</label>
+                <div class="handle-toggle">
+                    <div class="toggle-option">
+                        <input type="radio" name="calculatorHandle" id="calcHandleYes" value="yes" checked>
+                        <label for="calcHandleYes">نعم</label>
+                    </div>
+                    <div class="toggle-option">
+                        <input type="radio" name="calculatorHandle" id="calcHandleNo" value="no">
+                        <label for="calcHandleNo">لا</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="calculatorHandleDirection" class="handle-direction show">
+                <div class="form-group">
+                    <label for="calcDirection">اتجاه المسكة</label>
+                    <select id="calcDirection">
+                        <option value="length">بالطول</option>
+                        <option value="width">بالعرض</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" id="calculateBtn">
+                حساب تكلفة الباب
+            </button>
+        </div>
+
+        <div class="card result-panel">
+            <div class="card-title">
+                <h3>تفاصيل التكلفة</h3>
+                <p>لباب واحد</p>
+            </div>
+
+            <div class="result-main">
+                <span>التكلفة الإجمالية للباب</span>
+                <strong id="calculatorTotal">$0.00</strong>
+            </div>
+
+            <div class="breakdown">
+                <div class="breakdown-row">
+                    <span>قطع الطول — بدون مسكة</span>
+                    <strong id="calcLengthNormal">$0.00</strong>
+                </div>
+                <div class="breakdown-row" id="calcLengthHandleRow">
+                    <span>قطعة الطول — مع مسكة</span>
+                    <strong id="calcLengthHandle">$0.00</strong>
+                </div>
+                <div class="breakdown-row">
+                    <span>قطع العرض — بدون مسكة</span>
+                    <strong id="calcWidthNormal">$0.00</strong>
+                </div>
+                <div class="breakdown-row" id="calcWidthHandleRow">
+                    <span>قطعة العرض — مع مسكة</span>
+                    <strong id="calcWidthHandle">$0.00</strong>
+                </div>
+                <div class="breakdown-row">
+                    <span>طقم الزوايا</span>
+                    <strong id="cornerCost">$0.00</strong>
+                </div>
+                <div class="breakdown-row">
+                    <span>مساحة الزجاج</span>
+                    <strong id="glassArea">0.00 m²</strong>
+                </div>
+                <div class="breakdown-row">
+                    <span>تكلفة الزجاج</span>
+                    <strong id="glassCost">$0.00</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ INVOICE ============ -->
+    <section id="invoice" class="page">
+        <div class="page-heading">
+            <h2>الفاتورة</h2>
+            <p>أضف كل أنواع الأبواب المطلوبة</p>
+        </div>
+
+        <!-- CUSTOMER DATA -->
+        <div class="card">
+            <div class="card-title">
+                <h3>بيانات الفاتورة</h3>
+            </div>
+            <div class="form-group">
+                <label for="customerName">اسم الزبون</label>
+                <input id="customerName" type="text" placeholder="أدخل اسم الزبون">
+            </div>
+            <div class="form-group">
+                <label for="invoiceDate">التاريخ</label>
+                <input id="invoiceDate" type="date">
+            </div>
+        </div>
+
+        <!-- ADD ITEM -->
+        <div class="card">
+            <div class="card-title">
+                <h3>إضافة بند جديد</h3>
+                <p>حدد الأبعاد والمسكة والعدد</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>الطول (cm)</label>
+                    <input id="lineLength" type="number" inputmode="decimal" min="0" step="0.1" placeholder="200">
+                </div>
+                <div class="form-group">
+                    <label>العرض (cm)</label>
+                    <input id="lineWidth" type="number" inputmode="decimal" min="0" step="0.1" placeholder="90">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>المسكة</label>
+                    <select id="lineHandle">
+                        <option value="yes">يوجد مسكة</option>
+                        <option value="no">بدون مسكة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>اتجاه المسكة</label>
+                    <select id="lineDirection">
+                        <option value="length">بالطول</option>
+                        <option value="width">بالعرض</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>العدد</label>
+                <input id="lineQuantity" type="number" inputmode="numeric" min="1" step="1" value="1">
+            </div>
+
+            <button class="btn btn-primary btn-block" id="addLineBtn">
+                + إضافة البند
+            </button>
+        </div>
+
+        <!-- ITEMS LIST -->
+        <div class="card">
+            <div class="items-head">
+                <h3>بنود الفاتورة</h3>
+                <span id="itemsCount" class="items-count">0 بنود</span>
+            </div>
+
+            <div id="invoiceTableContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">+</div>
+                    <h4>لا توجد بنود حتى الآن</h4>
+                    <p>أضف أول بند من الأعلى</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRAND TOTAL -->
+        <div class="grand-total">
+            <span>الإجمالي الكلي</span>
+            <strong id="invoiceTotal">$0.00</strong>
+            <div class="invoice-actions">
+                <button class="btn" id="generateImageBtn">
+                    توليد صورة الفاتورة
+                </button>
+                <button class="btn secondary" id="clearInvoiceBtn">
+                    مسح الفاتورة
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- =========================================================
+     BOTTOM NAV
+========================================================= -->
+<nav class="bottom-nav">
+    <button class="nav-btn active" data-page="materials">
+        <span class="nav-icon">💰</span>
+        <span>الأسعار</span>
+    </button>
+    <button class="nav-btn" data-page="calculator">
+        <span class="nav-icon">📐</span>
+        <span>الحاسبة</span>
+    </button>
+    <button class="nav-btn" data-page="invoice">
+        <span class="nav-icon">📄</span>
+        <span>الفاتورة</span>
+    </button>
+</nav>
+
+<!-- =========================================================
+     HIDDEN INVOICE IMAGE
+========================================================= -->
+<div id="invoiceImageArea" class="invoice-image-area">
+    <div class="print-invoice">
+        <div class="print-head">
+            <div class="print-brand">
+                <h1>AluCost Pro</h1>
+                <p>فاتورة تكلفة أبواب الألمنيوم</p>
+            </div>
+            <div class="print-info">
+                <div><strong>التاريخ:</strong> <span id="printDate"></span></div>
+                <div><strong>الزبون:</strong> <span id="printCustomer"></span></div>
+            </div>
+        </div>
+
+        <div class="print-customer">
+            <div class="print-info-box">
+                <span>اسم الزبون</span>
+                <strong id="printCustomerBox">-</strong>
+            </div>
+            <div class="print-info-box">
+                <span>تاريخ الفاتورة</span>
+                <strong id="printDateBox">-</strong>
+            </div>
+        </div>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الأبعاد</th>
+                    <th>المسكة</th>
+                    <th>المكان</th>
+                    <th>العدد</th>
+                    <th>سعر الباب</th>
+                    <th>الإجمالي</th>
+                </tr>
+            </thead>
+            <tbody id="printItems"></tbody>
+        </table>
+
+        <div class="print-total">
+            <div class="print-total-box">
+                <span>الإجمالي الكلي</span>
+                <strong id="printTotal">$0.00</strong>
+            </div>
+        </div>
+
+        <div class="print-footer">
+            AluCost Pro — Aluminum Door Cost Invoice
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast">تم الحفظ بنجاح</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+
+/* =========================================================
+   STORAGE
+========================================================= */
+const STORAGE_KEYS = {
+    prices: "alucost_prices",
+    invoice: "alucost_invoice_items"
+};
+
+const defaultPrices = { normalBar: 0, handleBar: 0, corner: 0, glass: 0 };
+
+let prices = loadPrices();
+let invoiceItems = loadInvoiceItems();
+let editingIndex = null;
+
+const $ = (id) => document.getElementById(id);
+
+function safeSetItem(key, value) {
+    try { localStorage.setItem(key, value); return true; }
+    catch (e) { console.warn("localStorage.setItem failed:", e); return false; }
+}
+function safeGetItem(key) {
+    try { return localStorage.getItem(key); }
+    catch (e) { console.warn("localStorage.getItem failed:", e); return null; }
+}
+function safeRemoveItem(key) {
+    try { localStorage.removeItem(key); }
+    catch (e) { console.warn("localStorage.removeItem failed:", e); }
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    initializeDate();
+    loadPricesIntoInputs();
+    updateCalculatorHandleUI();
+    renderInvoiceItems();
+    setupNavigation();
+    setupCalculatorHandle();
+    setupInvoiceHandle();
+    setupPricesAutoSave();
+    setupAllButtons();
+});
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+function loadPrices() {
+    try {
+        const saved = safeGetItem(STORAGE_KEYS.prices);
+        if (!saved) return { ...defaultPrices };
+        return { ...defaultPrices, ...JSON.parse(saved) };
+    } catch (e) { return { ...defaultPrices }; }
+}
+function savePrices() {
+    safeSetItem(STORAGE_KEYS.prices, JSON.stringify(prices));
+}
+function loadInvoiceItems() {
+    try {
+        const saved = safeGetItem(STORAGE_KEYS.invoice);
+        return saved ? JSON.parse(saved) : [];
+    } catch (e) { return []; }
+}
+function saveInvoiceItems() {
+    safeSetItem(STORAGE_KEYS.invoice, JSON.stringify(invoiceItems));
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+function setupAllButtons() {
+    $("savePricesBtn").addEventListener("click", () => {
+        readPricesFromInputs();
+        savePrices();
+        showToast("تم حفظ أسعار المواد بنجاح");
+    });
+    $("calculateBtn").addEventListener("click", calculateSingleDoor);
+    $("addLineBtn").addEventListener("click", addOrUpdateInvoiceItem);
+    $("clearInvoiceBtn").addEventListener("click", clearInvoice);
+    $("generateImageBtn").addEventListener("click", generateInvoiceImage);
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+function setupNavigation() {
+    document.querySelectorAll(".nav-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            const pageId = button.dataset.page;
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+            button.classList.add("active");
+            $(pageId).classList.add("active");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    });
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+function initializeDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    $("invoiceDate").value = `${yyyy}-${mm}-${dd}`;
+}
+
+/* =========================================================
+   PRICES
+========================================================= */
+function loadPricesIntoInputs() {
+    $("normalBarPrice").value = prices.normalBar || "";
+    $("handleBarPrice").value = prices.handleBar || "";
+    $("cornerPrice").value = prices.corner || "";
+    $("glassPrice").value = prices.glass || "";
+}
+function readPricesFromInputs() {
+    prices.normalBar = Number($("normalBarPrice").value) || 0;
+    prices.handleBar = Number($("handleBarPrice").value) || 0;
+    prices.corner = Number($("cornerPrice").value) || 0;
+    prices.glass = Number($("glassPrice").value) || 0;
+}
+function setupPricesAutoSave() {
+    ["normalBarPrice", "handleBarPrice", "cornerPrice", "glassPrice"].forEach(id => {
+        $(id).addEventListener("input", () => {
+            readPricesFromInputs();
+            savePrices();
+        });
+    });
+}
+
+/* =========================================================
+   CALCULATION ENGINE
+========================================================= */
+function calculateDoorCost(length, width, hasHandle, handleDirection) {
+    length = Number(length);
+    width = Number(width);
+    if (!length || !width || length <= 0 || width <= 0) return null;
+
+    const normalPricePerCm = prices.normalBar / 600;
+    const handlePricePerCm = prices.handleBar / 600;
+
+    let lengthNormalQty = 2;
+    let widthNormalQty = 2;
+    let lengthHandleQty = 0;
+    let widthHandleQty = 0;
+
+    if (hasHandle) {
+        if (handleDirection === "length") {
+            lengthNormalQty = 1;
+            lengthHandleQty = 1;
+            widthNormalQty = 2;
+            widthHandleQty = 0;
+        } else {
+            lengthNormalQty = 2;
+            lengthHandleQty = 0;
+            widthNormalQty = 1;
+            widthHandleQty = 1;
+        }
+    }
+
+    const lengthNormalCost = lengthNormalQty * length * normalPricePerCm;
+    const widthNormalCost = widthNormalQty * width * normalPricePerCm;
+    const lengthHandleCost = lengthHandleQty * length * handlePricePerCm;
+    const widthHandleCost = widthHandleQty * width * handlePricePerCm;
+
+    const normalAluminumCost = lengthNormalCost + widthNormalCost;
+    const handleAluminumCost = lengthHandleCost + widthHandleCost;
+    const cornerCost = prices.corner;
+
+    const glassArea = (length / 100) * (width / 100);
+    const glassCost = glassArea * prices.glass;
+
+    const total = normalAluminumCost + handleAluminumCost + cornerCost + glassCost;
+
+    return {
+        length, width, hasHandle, handleDirection,
+        lengthNormalQty, widthNormalQty,
+        lengthHandleQty, widthHandleQty,
+        lengthNormalCost, widthNormalCost,
+        lengthHandleCost, widthHandleCost,
+        normalAluminumCost, handleAluminumCost,
+        cornerCost, glassArea, glassCost, total
+    };
+}
+
+/* =========================================================
+   CALCULATOR UI
+========================================================= */
+function setupCalculatorHandle() {
+    document.querySelectorAll('input[name="calculatorHandle"]').forEach(radio => {
+        radio.addEventListener("change", updateCalculatorHandleUI);
+    });
+}
+function updateCalculatorHandleUI() {
+    const hasHandle = $("calcHandleYes").checked;
+    $("calculatorHandleDirection").classList.toggle("show", hasHandle);
+}
+function calculateSingleDoor() {
+    const length = Number($("doorLength").value);
+    const width = Number($("doorWidth").value);
+    const hasHandle = $("calcHandleYes").checked;
+    const direction = $("calcDirection").value;
+
+    const r = calculateDoorCost(length, width, hasHandle, direction);
+    if (!r) { showToast("أدخل الطول والعرض بشكل صحيح"); return; }
+
+    $("calculatorTotal").textContent = money(r.total);
+    $("calcLengthNormal").textContent = money(r.lengthNormalCost);
+    $("calcWidthNormal").textContent = money(r.widthNormalCost);
+    $("calcLengthHandle").textContent = money(r.lengthHandleCost);
+    $("calcWidthHandle").textContent = money(r.widthHandleCost);
+    $("cornerCost").textContent = money(r.cornerCost);
+    $("glassArea").textContent = r.glassArea.toFixed(2) + " m²";
+    $("glassCost").textContent = money(r.glassCost);
+
+    $("calcLengthHandleRow").style.display = r.lengthHandleQty > 0 ? "flex" : "none";
+    $("calcWidthHandleRow").style.display = r.widthHandleQty > 0 ? "flex" : "none";
+
+    // Scroll to result on mobile
+    setTimeout(() => {
+        document.querySelector(".result-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+}
+
+/* =========================================================
+   INVOICE HANDLE UI
+========================================================= */
+function setupInvoiceHandle() {
+    $("lineHandle").addEventListener("change", updateInvoiceHandleUI);
+    updateInvoiceHandleUI();
+}
+function updateInvoiceHandleUI() {
+    const hasHandle = $("lineHandle").value === "yes";
+    $("lineDirection").disabled = !hasHandle;
+    $("lineDirection").style.opacity = hasHandle ? "1" : "0.5";
+}
+
+/* =========================================================
+   ADD / EDIT
+========================================================= */
+function addOrUpdateInvoiceItem() {
+    try {
+        const length = Number($("lineLength").value);
+        const width = Number($("lineWidth").value);
+        const hasHandle = $("lineHandle").value === "yes";
+        const direction = $("lineDirection").value;
+        const quantity = Number($("lineQuantity").value);
+
+        if (!length || !width || length <= 0 || width <= 0) {
+            showToast("أدخل الطول والعرض بشكل صحيح");
+            return;
+        }
+        if (!quantity || quantity < 1) {
+            showToast("أدخل عدد أبواب صحيح");
+            return;
+        }
+
+        const r = calculateDoorCost(length, width, hasHandle, direction);
+        if (!r) { showToast("تعذر حساب تكلفة الباب"); return; }
+
+        const item = {
+            length, width, hasHandle,
+            handleDirection: hasHandle ? direction : null,
+            quantity,
+            unitCost: r.total,
+            total: r.total * quantity
+        };
+
+        if (editingIndex !== null) {
+            invoiceItems[editingIndex] = item;
+            editingIndex = null;
+            $("addLineBtn").textContent = "+ إضافة البند";
+            showToast("تم تعديل البند");
+        } else {
+            invoiceItems.push(item);
+            showToast("تمت إضافة البند");
+        }
+
+        saveInvoiceItems();
+        renderInvoiceItems();
+        clearLineForm();
+
+        setTimeout(() => {
+            $("invoiceTableContainer").scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+
+    } catch (err) {
+        console.error("addOrUpdateInvoiceItem error:", err);
+        showToast("حدث خطأ أثناء إضافة البند");
+    }
+}
+
+/* =========================================================
+   RENDER INVOICE
+========================================================= */
+function renderInvoiceItems() {
+    const container = $("invoiceTableContainer");
+    if (!container) return;
+
+    $("itemsCount").textContent = invoiceItems.length + " بنود";
+
+    if (invoiceItems.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">+</div>
+                <h4>لا توجد بنود حتى الآن</h4>
+                <p>أضف أول بند من الأعلى</p>
+            </div>
+        `;
+        updateInvoiceTotal();
+        return;
+    }
+
+    let html = `<div class="invoice-list">`;
+
+    invoiceItems.forEach((item, index) => {
+        const directionText = item.hasHandle
+            ? (item.handleDirection === "length" ? "بالطول" : "بالعرض")
+            : "-";
+        const handleText = item.hasHandle ? "يوجد مسكة" : "بدون مسكة";
+
+        html += `
+            <div class="invoice-item">
+                <div class="invoice-item-top">
+                    <div class="item-index">${index + 1}</div>
+                    <div class="item-dims">
+                        <strong>${item.length} × ${item.width} cm</strong>
+                        <small>${handleText} • ${directionText}</small>
+                    </div>
+                    <div class="item-actions">
+                        <button class="icon-btn edit-btn" data-action="edit" data-index="${index}" title="تعديل">✎</button>
+                        <button class="icon-btn delete-btn" data-action="delete" data-index="${index}" title="حذف">×</button>
+                    </div>
+                </div>
+                <div class="invoice-item-mid">
+                    <div class="item-meta">
+                        <span>سعر الباب</span>
+                        <strong>${money(item.unitCost)}</strong>
+                    </div>
+                    <div class="item-meta">
+                        <span>العدد</span>
+                        <strong>${item.quantity}</strong>
+                    </div>
+                </div>
+                <div class="invoice-item-bottom">
+                    <div class="item-total">
+                        <span>الإجمالي</span>
+                        <strong>${money(item.total)}</strong>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+
+    container.querySelectorAll("[data-action]").forEach(button => {
+        button.addEventListener("click", () => {
+            const index = Number(button.dataset.index);
+            const action = button.dataset.action;
+            if (action === "edit") editInvoiceItem(index);
+            if (action === "delete") deleteInvoiceItem(index);
+        });
+    });
+
+    updateInvoiceTotal();
+}
+
+/* =========================================================
+   EDIT / DELETE
+========================================================= */
+function editInvoiceItem(index) {
+    const item = invoiceItems[index];
+    $("lineLength").value = item.length;
+    $("lineWidth").value = item.width;
+    $("lineHandle").value = item.hasHandle ? "yes" : "no";
+    $("lineDirection").value = item.handleDirection || "length";
+    $("lineQuantity").value = item.quantity;
+
+    editingIndex = index;
+    $("addLineBtn").textContent = "حفظ تعديل";
+    updateInvoiceHandleUI();
+
+    document.querySelector("#invoice .card:nth-child(2)").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function deleteInvoiceItem(index) {
+    if (!confirm("هل تريد حذف هذا البند من الفاتورة؟")) return;
+    invoiceItems.splice(index, 1);
+    saveInvoiceItems();
+    renderInvoiceItems();
+    showToast("تم حذف البند");
+}
+
+function clearLineForm() {
+    $("lineLength").value = "";
+    $("lineWidth").value = "";
+    $("lineHandle").value = "yes";
+    $("lineDirection").value = "length";
+    $("lineQuantity").value = 1;
+    editingIndex = null;
+    $("addLineBtn").textContent = "+ إضافة البند";
+    updateInvoiceHandleUI();
+}
+
+/* =========================================================
+   TOTAL
+========================================================= */
+function getInvoiceTotal() {
+    return invoiceItems.reduce((sum, item) => sum + Number(item.total), 0);
+}
+function updateInvoiceTotal() {
+    $("invoiceTotal").textContent = money(getInvoiceTotal());
+}
+
+/* =========================================================
+   CLEAR INVOICE
+========================================================= */
+function clearInvoice() {
+    if (invoiceItems.length === 0) { showToast("الفاتورة فارغة"); return; }
+    if (!confirm("هل تريد مسح جميع بنود الفاتورة؟")) return;
+    invoiceItems = [];
+    editingIndex = null;
+    safeRemoveItem(STORAGE_KEYS.invoice);
+    $("addLineBtn").textContent = "+ إضافة البند";
+    renderInvoiceItems();
+    clearLineForm();
+    showToast("تم مسح الفاتورة");
+}
+
+/* =========================================================
+   GENERATE IMAGE
+========================================================= */
+async function generateInvoiceImage() {
+    if (typeof html2canvas === "undefined") {
+        showToast("تعذر تحميل أداة توليد الصورة");
+        return;
+    }
+    if (invoiceItems.length === 0) {
+        showToast("أضف بنداً واحداً على الأقل");
+        return;
+    }
+
+    const customer = $("customerName").value.trim();
+    const date = $("invoiceDate").value;
+
+    $("printCustomer").textContent = customer || "زبون";
+    $("printCustomerBox").textContent = customer || "زبون";
+
+    const formattedDate = formatDate(date);
+    $("printDate").textContent = formattedDate;
+    $("printDateBox").textContent = formattedDate;
+
+    renderPrintItems();
+    $("printTotal").textContent = money(getInvoiceTotal());
+
+    const scrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
+    try {
+        const canvas = await html2canvas($("invoiceImageArea"), {
+            backgroundColor: "#ffffff",
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            windowWidth: 780,
+            width: 780
+        });
+
+        const link = document.createElement("a");
+        const safeName = customer
+            ? customer.replace(/[^a-zA-Z0-9\u0600-\u06FF-_]/g, "_")
+            : "invoice";
+
+        link.download = `invoice-${safeName}.png`;
+        link.href = canvas.toDataURL("image/png");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showToast("تم توليد صورة الفاتورة");
+    } catch (error) {
+        console.error("html2canvas error:", error);
+        showToast("حدث خطأ أثناء توليد الصورة");
+    } finally {
+        window.scrollTo(0, scrollY);
+    }
+}
+
+function renderPrintItems() {
+    const tbody = $("printItems");
+    tbody.innerHTML = "";
+    invoiceItems.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        const handleText = item.hasHandle ? "يوجد" : "لا يوجد";
+        const directionText = item.hasHandle
+            ? (item.handleDirection === "length" ? "بالطول" : "بالعرض")
+            : "-";
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.length} × ${item.width} cm</td>
+            <td>${handleText}</td>
+            <td>${directionText}</td>
+            <td>${item.quantity}</td>
+            <td>${money(item.unitCost)}</td>
+            <td><strong>${money(item.total)}</strong></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+/* =========================================================
+   FORMAT
+========================================================= */
+function formatDate(dateString) {
+    if (!dateString) return "-";
+    const date = new Date(dateString + "T00:00:00");
+    return date.toLocaleDateString("ar", {
+        year: "numeric", month: "long", day: "numeric"
+    });
+}
+function money(value) {
+    return "$" + Number(value || 0).toFixed(2);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+let toastTimer;
+function showToast(message) {
+    const toast = $("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+</script>
+
+</body>
+</html>
